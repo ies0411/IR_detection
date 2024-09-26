@@ -3,8 +3,8 @@
 IR sensor dataset을 AI 객체 탐지하는 challenge의 솔루션.
 최종 리더보드 기준 2nd
 
-()링크를 통해 weight와 dataset을 받을 수 있으며, 이를 이용하면 아래의 과정을 순서대로 진행하지 않아도 됨.
-만약 scratch부터 진행한다면 아래의 모든 순서대로 꼭 진행해야함.
+weight와 dataset의 다운받을 수 있으며, 이를 이용하면 아래의 과정을 순서대로 진행하지 않아도 됨.
+만약 from scratch부터 진행한다면 아래의 모든 순서대로 꼭 진행해야함.
 
 ## 환경세팅
 1. Docker사용(권장)
@@ -34,33 +34,42 @@ cd mmdetection && pip install -e . && cd ..
 cd mmyolo && pip install -e . && cd ..
 
 ```
+## 데이터 및 weight 다운로드
+- [Dataset](https://drive.google.com/your-shared-link)
+- [weight](https://drive.google.com/your-shared-link)
+- [모델별 output](https://drive.google.com/your-other-shared-link)
+- [최종 submit output](https://drive.google.com/your-other-shared-link)
+
 ## folder-tree
-()에서 weight와 dataset을 다운받아서 아래와 같이 dataset과 weight를 구성시킴
+weight와 dataset을 다운받아서 아래와 같이 dataset과 weight의 폴더 위치를 구성함
+![folder tree](./docs/image.png)
+
 
 ## Preprocessing data
 tools/combine_dataset.ipynb 의 모든 셀을 순차대로 실행하여 train/val의 데이터셋을 합침
+baseline모델을 선정후에는 train/val의 모든 데이터를 학습용 데이터로 함 -> submit제출 횟수의 제한이 없기에 가능
 
 ## Train launcher
-yolox 실행
+yolox training 실행
 ```bash
 cd launcher
 ./train_yolox.sh
 ```
 
-ppyoloe 실행
+ppyoloe training 실행
 ```bash
 cd launcher
 ./train_ppyoloe.sh
 ```
 
-codetr(resnet101) 실행
+codetr(resnet101) training 실행
 ```bash
 cd launcher
 ./train_codetr_resnet.sh
 ```
 
 
-codetr(swin) 실행
+codetr(swin) training 실행
 ```bash
 cd launcher
 ./train_codetr_swin.sh
@@ -82,20 +91,20 @@ combine_pseudo_data.ipynb
 
 pseudo label을 통해 extra data를 추가하면 다시 아래의 script를 통해 추가 학습을 진행하며 이를 반복함
 
-codetr(resnet101) 실행
+codetr(resnet101) pseudo label을 포함한 train 실행
 ```bash
 cd launcher
 ./train_codetr_resnet2.sh
 ```
 
 
-codetr(swin) 실행
+codetr(swin) pseudo label을 포함한 train 실행
 ```bash
 cd launcher
 ./train_codetr_swin2.sh
 ```
-TODO : 그림
 
+이를 반복함 (리소스의 한계로 최대 pseudo label을 점진적으로 증가시켜 1500개까지만 사용하였음)
 
 ### 참고
 codetr(swin)의 pretrained model을 만드는 과정
@@ -103,7 +112,7 @@ codetr(swin)의 pretrained model을 만드는 과정
 cd mmdetection
 python train.py projects/configs/codino/pretrained_swin.py
 ```
-backbone 에 weight를 적용하고 epoch가 진행될때 마다 점점 줄여가서 학습을 진행
+extra dataset들을 더 추가해서 학습을 진행하였고 backbone의 weight들에 가중치를 부여하고 epoch가 진행될때 마다 점점 가중치를 줄여가서 학습을 진행
 
 
 ## Inference launcher
@@ -151,3 +160,4 @@ cd launcher
 ./inference_codetr_swin.sh
 ```
 
+## Ref
