@@ -3,14 +3,12 @@ _base_ = [
     "../_base_/default_runtime.py",
     "./yolox_tta.py",
 ]
-# load_from = "checkpoints/yolox_x_8x8_300e_coco_20211126_140254-1ef88d67.pth"
-# load_from = "work_dirs/yolox/total/epoch_240.pth"
+
 load_from = "work_dirs/yolox/total/epoch_240.pth"
 # load_from = "work_dirs/yolox/extra/epoch_290.pth"
-resume = True
+# resume = True
 
 img_scale = (640, 640)  # width, height
-# img_scale = (1024, 1024)
 save_epoch_intervals = 5
 data_root = "data/all_dataset"
 dataset_type = "CocoDataset"
@@ -18,7 +16,6 @@ classes = ("person", "car", "truck", "bus", "bicycle", "bike", "extra_vehicle", 
 num_classes = 8
 base_lr = 0.01
 batch_size = 4
-# image_size = (1024, 1024)
 
 # model settings
 # mean = [139.4229080324816, 139.4229080324816, 139.4229080324816]
@@ -28,14 +25,6 @@ batch_size = 4
 
 model = dict(
     type="YOLOX",
-    # data_preprocessor=dict(
-    #     type="DetDataPreprocessor",
-    #     mean=mean,
-    #     std=std,
-    #     bgr_to_rgb=False,
-    #     pad_mask=True,
-    #     batch_augments=batch_augments,
-    # ),
     data_preprocessor=dict(
         type="DetDataPreprocessor",
         pad_size_divisor=32,
@@ -95,59 +84,16 @@ model = dict(
     test_cfg=dict(score_thr=0.01, nms=dict(type="nms", iou_threshold=0.65)),
 )
 
-# dataset settings
-# data_root = "data/coco/"
 
-
-# Example to use different file client
-# Method 1: simply set the data root and let the file I/O module
-# automatically infer from prefix (not support LMDB and Memcache yet)
-
-# data_root = 's3://openmmlab/datasets/detection/coco/'
-
-# Method 2: Use `backend_args`, `file_client_args` in versions before 3.0.0rc6
-# backend_args = dict(
-#     backend='petrel',
-#     path_mapping=dict({
-#         './data/': 's3://openmmlab/datasets/detection/',
-#         'data/': 's3://openmmlab/datasets/detection/'
-#     }))
 backend_args = None
 
-albu_train_transforms = [
-    dict(
-        type="OneOf",
-        transforms=[
-            dict(type="Blur", blur_limit=1, p=0.2),
-            dict(type="GaussNoise", var_limit=(10.0, 20.0), p=0.2),
-        ],
-        p=0.5,
-    ),
-]
-mean = [139.4229080324816, 139.4229080324816, 139.4229080324816]
-std = [56.34895042201581, 56.34895042201581, 56.34895042201581]
+# mean = [139.4229080324816, 139.4229080324816, 139.4229080324816]
+# std = [56.34895042201581, 56.34895042201581, 56.34895042201581]
 
 
-img_norm_cfg = dict(mean=mean, std=std, to_rgb=False)
+# img_norm_cfg = dict(mean=mean, std=std, to_rgb=False)
 
 train_pipeline = [
-    # dict(type="Normalize", **img_norm_cfg),
-    # dict(type="CopyPaste", max_num_pasted=100),
-    # dict(
-    # type="Albu",
-    # transforms=albu_train_transforms,
-    # bbox_params=dict(
-    #     type="BboxParams",
-    #     format="pascal_voc",  # Ensure this matches your bbox format, could be 'coco' or 'pascal_voc'
-    #     label_fields=["gt_bboxes_labels", "gt_ignore_flags"],
-    #     min_visibility=0.0,
-    #     filter_lost_elements=True,
-    # ),
-    # keymap={"img": "image", "gt_bboxes": "bboxes"},
-    # skip_img_without_anno=True,
-    # ),
-    # dict(type="CopyPaste", max_num_pasted=100),
-    # dict(type="Normalize", **img_norm_cfg),
     dict(type="Mosaic", img_scale=img_scale, pad_val=114.0),
     dict(
         type="RandomAffine",
@@ -183,8 +129,6 @@ train_dataset = dict(
         data_root=data_root,
         ann_file="anno/total.json",
         data_prefix=dict(img="total/"),
-        # ann_file="anno/total_extra.json",
-        # data_prefix=dict(img="extra/"),
         metainfo=dict(classes=classes),
         pipeline=[
             dict(type="LoadImageFromFile", backend_args=backend_args),
@@ -198,7 +142,6 @@ train_dataset = dict(
 
 test_pipeline = [
     dict(type="LoadImageFromFile", backend_args=backend_args),
-    # dict(type="Normalize", **img_norm_cfg),
     dict(type="Resize", scale=img_scale, keep_ratio=True),
     dict(type="Pad", pad_to_square=True, pad_val=dict(img=(114.0, 114.0, 114.0))),
     dict(type="LoadAnnotations", with_bbox=True),

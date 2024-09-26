@@ -1,53 +1,42 @@
 _base_ = ["co_dino_5scale_r50_8xb2_1x_coco.py"]
 
-load_from = "work_dirs/swin/base2/iter_14000.pth"
-resume = True
-
+load_from = "work_dirs/resnet101/refine3/iter_136000.pth"
+# resume = True
 
 data_root = "data/all_dataset"
+classes = ("person", "car", "truck", "bus", "bicycle", "bike", "extra_vehicle", "dog")
 num_classes = 8
 image_size = (1024, 1024)
+batch_size = 1
+num_workers = 4
+num_gpu = 3
+base_lr = 1e-4
+max_epochs = 35
+
+# model settings
 mean = [139.4229080324816, 139.4229080324816, 139.4229080324816]
 std = [56.34895042201581, 56.34895042201581, 56.34895042201581]
-max_epochs = 50
 
-classes = ("person", "car", "truck", "bus", "bicycle", "bike", "extra_vehicle", "dog")
 batch_augments = [dict(type="BatchFixedSizePad", size=image_size, pad_mask=True)]
-base_lr = 1e-4
-base_mult = 1
-# model settings
+
 model = dict(
     data_preprocessor=dict(
         type="DetDataPreprocessor",
         mean=mean,
         std=std,
-        bgr_to_rgb=False,
+        bgr_to_rgb=True,
         pad_mask=True,
         batch_augments=batch_augments,
     ),
     backbone=dict(
-        _delete_=True,
-        type="SwinTransformer",
-        # frozen_stages=1,
-        pretrain_img_size=384,
-        embed_dims=192,
-        depths=[2, 2, 18, 2],
-        num_heads=[6, 12, 24, 48],
-        window_size=12,
-        mlp_ratio=4,
-        qkv_bias=True,
-        qk_scale=None,
-        drop_rate=0.0,
-        attn_drop_rate=0.0,
-        drop_path_rate=0.3,
-        patch_norm=True,
-        out_indices=(0, 1, 2, 3),
-        with_cp=True,
-        convert_weights=True,
-        init_cfg=None,
+        depth=101,
+        frozen_stages=-1,  # 1 -> -1 (epoch 15)
+        norm_cfg=dict(type="BN", requires_grad=False),
+        style="pytorch",
+        init_cfg=dict(type="Pretrained", checkpoint="torchvision://resnet101"),
     ),
-    neck=dict(in_channels=[192, 384, 768, 1536]),
     query_head=dict(
+        num_classes=num_classes,
         dn_cfg=dict(box_noise_scale=0.4, group_cfg=dict(num_dn_queries=500)),
         transformer=dict(encoder=dict(with_cp=6)),
     ),
@@ -55,8 +44,9 @@ model = dict(
 
 tta_model = dict(
     type="DetTTAModel",
-    tta_cfg=dict(nms=dict(type="nms", iou_threshold=0.65), max_per_img=100),
+    tta_cfg=dict(nms=dict(type="nms", iou_threshold=0.75), max_per_img=200),
 )
+
 albu_train_transforms = [
     dict(
         type="ShiftScaleRotate",
@@ -66,14 +56,26 @@ albu_train_transforms = [
         interpolation=1,
         p=0.2,
     ),
-    dict(type="Cutout", num_holes=5, max_h_size=20, max_w_size=20, p=0.2),
+    dict(
+        type="OneOf",
+        transforms=[
+            dict(type="Cutout", num_holes=5, max_h_size=20, max_w_size=20, p=0.2),
+        ],
+        p=1.0,
+    ),
     dict(
         type="OneOf",
         transforms=[
             dict(type="Blur", blur_limit=3, p=0.2),
-            dict(type="MedianBlur", p=0.2),
-            dict(type="CLAHE", p=0.2),
-            dict(type="GaussNoise", var_limit=(10.0, 30.0), p=0.2),
+            dict(type="GaussNoise", var_limit=(10.0, 20.0), p=0.2),
+            # dict(type="MedianBlur", p=0.2),
+            # dict(type="CLAHE", p=0.2),
+            # dict(
+            #     type="RandomBrightnessContrast",
+            #     brightness_limit=[0.05, 0.1],
+            #     contrast_limit=[0.05, 0.1],
+            #     p=0.2,
+            # ),
         ],
         p=1.0,
     ),
@@ -88,7 +90,7 @@ train_pipeline = [
         transforms=albu_train_transforms,
         bbox_params=dict(
             type="BboxParams",
-            format="pascal_voc",  # Ensure this matches your bbox format, could be 'coco' or 'pascal_voc'
+            format="pascal_voc",
             label_fields=["gt_bboxes_labels", "gt_ignore_flags"],
             min_visibility=0.0,
             filter_lost_elements=True,
@@ -206,21 +208,20 @@ train_pipeline = [
     dict(type="FilterAnnotations", min_gt_bbox_wh=(1e-1, 1e-1)),
     dict(type="PackDetInputs"),
 ]
-
+# https://mmdetection.readthedocs.io/en/v2.11.0/tutorials/customize_dataset.html :concat dataset, balancing dataset
 train_dataloader = dict(
-    batch_size=1,
-    num_workers=1,
+    batch_size=batch_size,
+    num_workers=num_workers,
+    sampler=dict(type="DefaultSampler", shuffle=True),
+    batch_sampler=dict(type="AspectRatioBatchSampler"),
     dataset=dict(
         metainfo=dict(classes=classes),
         data_root=data_root,
-        data_prefix=dict(img="train/"),
-        ann_file="anno/train.json",
+        data_prefix=dict(img="total/"),
+        ann_file="anno/total.json",
         pipeline=train_pipeline,
-        filter_cfg=dict(filter_empty_gt=False),
     ),
 )
-
-
 scale = (2048, 1280)
 test_pipeline = [
     dict(type="LoadImageFromFile"),
@@ -233,7 +234,42 @@ test_pipeline = [
     ),
 ]
 
+img_scales = [(2048, 1280), (1333, 800), (1024, 1024), (666, 430)]
+
+tta_pipeline = [
+    dict(type="LoadImageFromFile"),
+    dict(
+        type="TestTimeAug",
+        transforms=[
+            [dict(type="Resize", scale=s, keep_ratio=True) for s in img_scales],
+            [
+                dict(type="RandomFlip", direction="horizontal", prob=1.0),
+                dict(type="RandomFlip", prob=0.0),
+            ],
+            [dict(type="Pad", size=image_size, pad_val=dict(img=(114, 114, 114)))],
+            [dict(type="LoadAnnotations", with_bbox=True)],
+            [
+                dict(
+                    type="PackDetInputs",
+                    meta_keys=(
+                        "img_id",
+                        "img_path",
+                        "ori_shape",
+                        "img_shape",
+                        "scale_factor",
+                        "flip",
+                        "flip_direction",
+                    ),
+                )
+            ],
+        ],
+    ),
+]
+
+
 val_dataloader = dict(
+    batch_size=1,
+    num_workers=1,
     dataset=dict(
         pipeline=test_pipeline,
         test_mode=True,
@@ -241,9 +277,24 @@ val_dataloader = dict(
         data_prefix=dict(img="val/"),
         data_root=data_root,
         ann_file="anno/val.json",
-    )
+    ),
 )
 test_dataloader = val_dataloader
+
+val_evaluator = dict(ann_file=data_root + "/anno/val.json")
+test_evaluator = val_evaluator
+optim_wrapper = dict(
+    optimizer=dict(lr=base_lr),
+    paramwise_cfg=dict(custom_keys={"backbone": dict(lr_mult=0.1)}),
+)
+
+# optim_wrapper = dict(
+#     _delete_=True,
+#     type="OptimWrapper",
+#     optimizer=dict(type="AdamW", lr=1e-4, weight_decay=0.0001),
+#     clip_grad=dict(max_norm=0.1, norm_type=2),
+#     paramwise_cfg=dict(custom_keys={"backbone": dict(lr_mult=0.1)}),
+# )
 
 
 default_hooks = dict(
@@ -256,13 +307,6 @@ default_hooks = dict(
     ),
 )
 
-val_evaluator = dict(ann_file=data_root + "/anno/val.json")
-test_evaluator = val_evaluator
-
-optim_wrapper = dict(
-    optimizer=dict(lr=base_lr),
-    paramwise_cfg=dict(custom_keys={"backbone": dict(lr_mult=base_mult)}),
-)
 
 train_cfg = dict(max_epochs=max_epochs, val_interval=5)
 
@@ -272,7 +316,19 @@ param_scheduler = [
         begin=0,
         end=max_epochs,
         by_epoch=True,
-        milestones=[50],
+        milestones=[35],
         gamma=0.1,
     )
 ]
+# param_scheduler = [
+#     dict(
+#         # use cosine lr from 5 to 285 epoch
+#         type="CosineAnnealingLR",
+#         eta_min=base_lr * 0.1,
+#         begin=0,
+#         T_max=max_epochs // 4,
+#         end=max_epochs,
+#         by_epoch=True,
+#         convert_to_iter_based=True,
+#     ),
+# ]
