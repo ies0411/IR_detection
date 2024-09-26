@@ -16,13 +16,13 @@ def load_txt_files_natsorted(folder_path):
 
     # Get a list of all .txt files in the folder and sort them naturally
     txt_files = natsorted([f for f in os.listdir(folder_path) if f.endswith(".txt")])
-
+    print(f"txt_files:{len(txt_files)}")
     # Loop through the naturally sorted list of files
     for filename in txt_files:
         file_path = os.path.join(folder_path, filename)
         txt_files_content.append(load_json(file_path))
 
-    return txt_files_content
+    return txt_files_content, len(txt_files)
 
 
 def denormalize_bbox(
@@ -77,7 +77,7 @@ def converting_data(datas):
 
 def main():
 
-    data_list = load_txt_files_natsorted("../output")
+    data_list, file_num = load_txt_files_natsorted("../output")
     bboxes_list = []
     scores_list = []
     labels_list = []
@@ -94,32 +94,31 @@ def main():
     skip_box_thr = 0.0001
     # sigma = 0.05
     sub_results = []
-
+    weights = [
+        1,
+        1,
+        1,
+        1,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        3.0,
+        3.0,
+    ]
     # images_list1
     for idx, bboxes in enumerate(bboxes_list[0]):
-        c_boxes_list = [bboxes_list[i][idx] for i in range(14)]
-        c_scores_list = [scores_list[i][idx] for i in range(14)]
-        c_labels_list = [labels_list[i][idx] for i in range(14)]
+        c_boxes_list = [bboxes_list[i][idx] for i in range(file_num)]
+        c_scores_list = [scores_list[i][idx] for i in range(file_num)]
+        c_labels_list = [labels_list[i][idx] for i in range(file_num)]
 
         image_name = images_list[0][idx]
-        weights = [
-            1,
-            1,
-            1,
-            1,
-            1.5,
-            1.5,
-            1.5,
-            1.5,
-            2.5,
-            2.5,
-            2.5,
-            2.5,
-            2.5,
-            2.5,
-            3.0,
-            3.0,
-        ]
 
         boxes, scores, labels = weighted_boxes_fusion(
             c_boxes_list,
