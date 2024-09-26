@@ -2,9 +2,10 @@
 # IR sensor, AI 객체탐지 challenge
 IR sensor dataset을 AI 객체 탐지하는 challenge의 솔루션.
 최종 리더보드 기준 2nd
+![score](./docs/image2.png)
 
-weight와 dataset의 다운받을 수 있으며, 이를 이용하면 아래의 과정을 순서대로 진행하지 않아도 됨.
-만약 from scratch부터 진행한다면 아래의 모든 순서대로 꼭 진행해야함.
+
+weight와 dataset의 다운받을 수 있으며, 이를 이용하면 아래의 과정을 순서대로 진행하지 않고 각각 단계를 독립적으로 테스트해볼수 있음.
 
 ## 환경세팅
 1. Docker사용(권장)
@@ -13,8 +14,7 @@ cd docker_script
 ./make_image.sh # 도커 이미지 생성
 ./run_image.sh # 컨테이너 생성
 
-git clone https://github.com/ies0411/IR_detection.git
-cd IR_detection
+cd /home/{IR_detection path}
 
 cd mmdetection && pip install -e . && cd ..
 cd mmyolo && pip install -e . && cd ..
@@ -161,3 +161,59 @@ cd launcher
 ```
 
 ## Ref
+```bash
+@article{mmdetection,
+  title   = {{MMDetection}: Open MMLab Detection Toolbox and Benchmark},
+  author  = {Chen, Kai and Wang, Jiaqi and Pang, Jiangmiao and Cao, Yuhang and
+             Xiong, Yu and Li, Xiaoxiao and Sun, Shuyang and Feng, Wansen and
+             Liu, Ziwei and Xu, Jiarui and Zhang, Zheng and Cheng, Dazhi and
+             Zhu, Chenchen and Cheng, Tianheng and Zhao, Qijie and Li, Buyu and
+             Lu, Xin and Zhu, Rui and Wu, Yue and Dai, Jifeng and Wang, Jingdong
+             and Shi, Jianping and Ouyang, Wanli and Loy, Chen Change and Lin, Dahua},
+  journal= {arXiv preprint arXiv:1906.07155},
+  year={2019}
+}
+```
+
+
+```bash
+@misc{mmyolo2022,
+    title={{MMYOLO: OpenMMLab YOLO} series toolbox and benchmark},
+    author={MMYOLO Contributors},
+    howpublished = {\url{https://github.com/open-mmlab/mmyolo}},
+    year={2022}
+}
+```
+
+```bash
+@misc{
+v7-zupa6_dataset,
+title = { v7 Dataset },
+type = { Open Source Dataset },
+author = { hossam },
+howpublished = { \url{ https://universe.roboflow.com/hossam-xkzry/v7-zupa6 } },
+url = { https://universe.roboflow.com/hossam-xkzry/v7-zupa6 },
+journal = { Roboflow Universe },
+publisher = { Roboflow },
+year = { 2023 },
+month = { jan },
+note = { visited on 2024-09-27 },
+}
+```
+
+```bash
+@misc{
+v7-zupa6_dataset,
+title = { v7 Dataset },
+type = { Open Source Dataset },
+author = { hossam },
+howpublished = { \url{ https://universe.roboflow.com/hossam-xkzry/v7-zupa6 } },
+url = { https://universe.roboflow.com/hossam-xkzry/v7-zupa6 },
+journal = { Roboflow Universe },
+publisher = { Roboflow },
+year = { 2023 },
+month = { jan },
+note = { visited on 2024-09-27 },
+}
+
+```
