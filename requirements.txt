@@ -1,0 +1,8 @@
+albumentations
+natsort
+yapf==0.40.1
+fairscale
+ensemble-boxes
+mmengine>=0.6.0
+mmcv>=2.0.0rc4,<2.1.0
+mmdet>=3.0.0,<4.0.0
