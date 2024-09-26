@@ -1,15 +1,13 @@
 _base_ = ["co_dino_5scale_r50_8xb2_1x_coco.py"]
-
-load_from = "work_dirs/swin/base2/iter_14000.pth"
-resume = True
+load_from = "../weights/codetr_swin/pretrained_model.pth"
 
 
-data_root = "data/all_dataset"
+data_root = "../datasets/"
 num_classes = 8
 image_size = (1024, 1024)
 mean = [139.4229080324816, 139.4229080324816, 139.4229080324816]
 std = [56.34895042201581, 56.34895042201581, 56.34895042201581]
-max_epochs = 50
+max_epochs = 35
 
 classes = ("person", "car", "truck", "bus", "bicycle", "bike", "extra_vehicle", "dog")
 batch_augments = [dict(type="BatchFixedSizePad", size=image_size, pad_mask=True)]

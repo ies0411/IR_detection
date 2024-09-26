@@ -1,10 +1,9 @@
 _base_ = "mmdet::common/ssj_scp_270k_coco-instance.py"
 
 custom_imports = dict(
-    imports=["projects.CO-DETR.codetr", "projects.ViTDet.vitdet"],
+    imports=["projects.CO-DETR.codetr"],
     allow_failed_imports=False,
 )
-# custom_imports = dict(imports=["projects.ViTDet.vitdet"])
 
 # model settings
 num_dec_layer = 6

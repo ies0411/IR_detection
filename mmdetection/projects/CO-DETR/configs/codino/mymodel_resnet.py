@@ -1,9 +1,8 @@
 _base_ = ["co_dino_5scale_r50_8xb2_1x_coco.py"]
 
-load_from = "work_dirs/resnet101/refine3/iter_136000.pth"
-# resume = True
 
-data_root = "data/all_dataset"
+load_from = "../weights/codetr_resnet/pretrained_model.pth"
+data_root = "../datasets/"
 classes = ("person", "car", "truck", "bus", "bicycle", "bike", "extra_vehicle", "dog")
 num_classes = 8
 image_size = (1024, 1024)

@@ -1,0 +1,1 @@
+../mmyolo/tools/dist_train.sh ../mmyolo/configs/ppyoloe/mymodel.py 1 --work-dir ../work_dir/ppyoloe/

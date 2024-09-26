@@ -4,3 +4,5 @@ all_dataset/
 output/
 results/
 datasets/
+weights/
+work_dir/

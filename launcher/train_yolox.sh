@@ -1,0 +1,1 @@
+../mmdetection/tools/dist_train.sh ../mmdetection/configs/yolox/mymodel.py 1 --work-dir ../work_dir/yolox/

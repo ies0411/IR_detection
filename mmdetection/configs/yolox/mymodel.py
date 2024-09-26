@@ -4,24 +4,17 @@ _base_ = [
     "./yolox_tta.py",
 ]
 
-load_from = "work_dirs/yolox/total/epoch_240.pth"
-# load_from = "work_dirs/yolox/extra/epoch_290.pth"
-# resume = True
-
+load_from = "../weights/yolox/pretrained_model.pth"
 img_scale = (640, 640)  # width, height
 save_epoch_intervals = 5
-data_root = "data/all_dataset"
+# data_root = "data/all_dataset"
+data_root = "../datasets/"
 dataset_type = "CocoDataset"
 classes = ("person", "car", "truck", "bus", "bicycle", "bike", "extra_vehicle", "dog")
 num_classes = 8
 base_lr = 0.01
 batch_size = 4
 
-# model settings
-# mean = [139.4229080324816, 139.4229080324816, 139.4229080324816]
-# std = [56.34895042201581, 56.34895042201581, 56.34895042201581]
-
-# batch_augments = [dict(type="BatchFixedSizePad", size=image_size, pad_mask=True)]
 
 model = dict(
     type="YOLOX",

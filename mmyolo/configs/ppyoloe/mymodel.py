@@ -1,18 +1,18 @@
 _base_ = "./ppyoloe_plus_s_fast_8xb8-80e_coco.py"
 
-load_from = "checkpoints/ppyoloe/pretrained_model.pth"
+load_from = "../weights/ppyoloe/pretrained_model.pth"
 
 deepen_factor = 1.33
 widen_factor = 1.25
 
 img_scale = (640, 640)  # width, height
 
-data_root = "data/all_dataset"
+data_root = "../datasets/"
 classes = ("person", "car", "truck", "bus", "bicycle", "bike", "extra_vehicle", "dog")
 num_classes = 8
 
 persistent_workers = True
-max_epochs = 300
+max_epochs = 135
 
 save_epoch_intervals = 5
 train_batch_size_per_gpu = 4
