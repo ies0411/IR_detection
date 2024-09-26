@@ -84,7 +84,7 @@ def converting_data(datas):
 
 def main():
 
-    data_list = load_txt_files_natsorted("../output")
+    data_list = load_txt_files_natsorted("../submit_output")
     bboxes_list = []
     scores_list = []
     labels_list = []
@@ -135,7 +135,7 @@ def main():
             }
             sub_results.append(ret)
 
-    with open("../output/final_results.txt", "w") as file:
+    with open("../submit_output/final_results.txt", "w") as file:
         json.dump(sub_results, file, indent=4)
 
 
