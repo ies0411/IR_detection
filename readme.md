@@ -142,7 +142,10 @@ cd launcher
 ```
 
 ## Ensemble
-inference launcher를 통해 output 폴더에 다양한 모델의 multi-size의 inference결과가 저장됨 -> WBF를 통해 앙상블을 진행 -> submit_output폴더에 최종 submit형식의 txt파일이 생성
+최종 submit결과 (모델 각각의 results를 다운받으면 단독으로 실행 가능)
+
+inference launcher를 통해 output 폴더에 다양한 모델의 multi-sie 또는 tta를 적용한 inference결과가 저장됨 -> WBF를 통해 앙상블을 진행 -> submit_output폴더에 최종 submit형식의 txt파일이 생성
+
 ```bash
 cd launcher
 ./inference_codetr_swin.sh
