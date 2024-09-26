@@ -35,10 +35,10 @@ cd mmyolo && pip install -e . && cd ..
 
 ```
 ## 데이터 및 weight 다운로드
-- [Dataset](https://drive.google.com/your-shared-link)
-- [weight](https://drive.google.com/your-shared-link)
-- [모델별 output](https://drive.google.com/your-other-shared-link)
-- [최종 submit output](https://drive.google.com/your-other-shared-link)
+- [Dataset](https://drive.google.com/drive/folders/17aYJv30YzAxMn_Vg1dTwOcGtpibje4t4?usp=sharing)
+- [weight](https://drive.google.com/drive/folders/14RykxBXfaIgl2JE5NN6yi9Q5JtKqkd82?usp=sharing)
+- [모델별 output](https://drive.google.com/drive/folders/1RZVeo9QMQYl5c4tasx_QM6kGzPCeDHxt?usp=sharing)
+- [최종 submit output](https://drive.google.com/drive/folders/1noWoi-QPZZpvne0DzJxEPQtXXImHM5_W?usp=sharing)
 
 ## folder-tree
 weight와 dataset을 다운받아서 아래와 같이 dataset과 weight의 폴더 위치를 구성함
