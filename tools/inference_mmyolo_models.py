@@ -34,7 +34,13 @@ def parse_config():
         type=str,
         required=True,
     )
-    parser.add_argument("--tta", action="store_true", default=False)
+    parser.add_argument(
+        "--output",
+        type=str,
+        required=True,
+    )
+
+    parser.add_argument("--tta_flag", action="store_true", default=False)
 
     args = parser.parse_args()
     return args
@@ -44,9 +50,8 @@ def main():
 
     device = "cuda:0"
     norm_scale = 640
-
     path.mkdir_or_exist("../output/")
-    test_dir_prefix = "../datasets/test/"
+    test_dir_prefix = "../datasets/test_open/"
 
     args = parse_config()
     config = Config.fromfile(args.config_path)

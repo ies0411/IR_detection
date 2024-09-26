@@ -11,8 +11,8 @@ max_epochs = 50
 
 classes = ("person", "car", "truck", "bus", "bicycle", "bike", "extra_vehicle", "dog")
 batch_augments = [dict(type="BatchFixedSizePad", size=image_size, pad_mask=True)]
-base_lr = 1e-6
-base_mult = 100
+base_lr = 1e-6  # 10epoch 마다 수정 , base_lr은 *5, base_mult는 *1/5
+base_mult = 100  #
 # model settings
 model = dict(
     data_preprocessor=dict(
@@ -212,7 +212,7 @@ train_dataloader = dict(
         metainfo=dict(classes=classes),
         data_root=data_root,
         data_prefix=dict(img="extra/"),
-        ann_file="anno/total_extra.json",
+        ann_file="anno/extra_data.json",
         pipeline=train_pipeline,
         filter_cfg=dict(filter_empty_gt=False),
     ),

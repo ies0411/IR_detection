@@ -1,0 +1,4 @@
+python3 ../tools/inference_mmdet_models.py --config_path ../mmdetection/projects/CO-DETR/configs/codino/mymodel_resnet.py --checkpoint ../weights/codetr_resnet/final_1.pth --scale 1024 1024 --output ../output/2_codetr_resnet.txt;
+python3 ../tools/inference_mmdet_models.py --config_path ../mmdetection/projects/CO-DETR/configs/codino/mymodel_resnet.py --checkpoint ../weights/codetr_resnet/final_1.pth --tta --output ../output/2_codetr_resnet_tta.txt;
+python3 ../tools/inference_mmdet_models.py --config_path ../mmdetection/projects/CO-DETR/configs/codino/mymodel_resnet_pseudo.py --checkpoint ../weights/codetr_resnet/final_2.pth --scale 1024 1024 --output ../output/2_codetr_resnet_pseudo.txt;
+python3 ../tools/inference_mmdet_models.py --config_path ../mmdetection/projects/CO-DETR/configs/codino/mymodel_resnet_pseudo.py --checkpoint ../weights/codetr_resnet/final_2.pth  --tta --output ../output/2_codetr_resnet_pseudo_tta.txt;

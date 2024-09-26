@@ -27,11 +27,7 @@ def parse_config():
         type=str,
         required=True,
     )
-    parser.add_argument(
-        "--scale",
-        type=str,
-        required=True,
-    )
+
     parser.add_argument("--tta", action="store_true", default=False)
     parser.add_argument("--scale", type=int, nargs=2, default=(1024, 1024))
 
@@ -41,22 +37,18 @@ def parse_config():
 
 def main():
     args = parse_config()
-    # config_path = "projects/CO-DETR/configs/codino/cd101_final.py"
-    # checkpoint = "./work_dirs/resnet101/aug_pseudo/best_coco/bbox_mAP_iter_138559.pth"
-
-    # tta_flag = True
-    # fusion_flag = True
-    # scale = (1024, 1024)
-    test_dir_prefix = "../datasets/test/"
+    test_dir_prefix = "../datasets/test_open/"
     norm_scale = 640
+    print(f"scale : {args.scale}")
     device = "cuda:0"
     path.mkdir_or_exist("../output/")
 
     cfg = Config.fromfile(args.config_path)
-    if args.tta_flag:
+    if args.tta:
         cfg.model = ConfigDict(**cfg.tta_model, module=cfg.model)
         cfg.test_dataloader.dataset.pipeline = cfg.tta_pipeline
-    cfg.test_pipeline[1].scale = args.scale
+    else:
+        cfg.test_pipeline[1].scale = tuple(args.scale)
     inferencer = DetInferencer(cfg, args.checkpoint, device)
 
     # img = 'data/all_dataset/test/test_open_85.png'

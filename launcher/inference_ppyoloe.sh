@@ -1,0 +1,2 @@
+python3 ../tools/inference_mmyolo_models.py --config_path ../mmyolo/configs/ppyoloe/mymodel.py --checkpoint ../weights/ppyoloe/final.pth --output ../output/1_ppyoloe.txt;
+python3 ../tools/inference_mmyolo_models.py --config_path ../mmyolo/configs/ppyoloe/mymodel.py --checkpoint ../weights/ppyoloe/final.pth --tta --output ../output/1_ppyoloe_tta.txt
