@@ -6,3 +6,5 @@ results/
 datasets/
 weights/
 work_dir/
+submit_output
+.DS_Store

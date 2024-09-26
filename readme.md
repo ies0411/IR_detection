@@ -74,7 +74,7 @@ extra dataset을 pseudo labeling작업을 통해 training data로 편입
 extra_data_pseudo_label.ipynb
 ```
 -  모든 셀 수행, checkpoints경로를 앞서 training을 통해 나온 최종 pth로 설정한다. 그리고 500개의 extra data를 추가해서 학습을 진행하서면 개선된 모델 weight로 다시 pseudo label을 생성한다. extra data의 개수도 500개씩 점진적으로 늘린다.
--
+
 ```bash
 combine_pseudo_data.ipynb
 ```
@@ -107,26 +107,35 @@ backbone 에 weight를 적용하고 epoch가 진행될때 마다 점점 줄여�
 
 
 ## Inference launcher
-yolox 실행
+### yolox
+- 최종 학습된 model weight 사용해서 base scale과 tta를 적용한 두개의 inference 결과 출력
 ```bash
 cd launcher
 ./inference_yolox.sh
 ```
 
-ppyoloe 실행
+### ppyoloe
+- 최종 학습된 model weight 사용해서 base scale과 tta를 적용한 두개의 inference 결과 출력
 ```bash
 cd launcher
 ./inference_ppyoloe.sh
 ```
 
-codetr(resnet101) 실행
+### codetr(resnet101) 실행
+- pseudo label을 사용하지 않은 model weight 통해 base scale과 tta를 적용한 두개의 inference 결과
+- pseudo label(1500)을 사용한 model weight 통해 base scale과 tta를 적용한 두개의 inference 결과
+- 총 4개의 inference 결과
 ```bash
 cd launcher
 ./inference_codetr_resnet.sh
 ```
 
+### codetr(swin) 실행
+- pseudo label을 사용하지 않은 model weight 통해 base scale과 tta를 적용한 두개의 inference 결과
+- pseudo label(500개)을 사용한 model weight 통해 base scale과 tta를 적용한 두개의 inference 결과
+- pseudo label(1500개)을 사용한 model weight 통해 multi-scale 를 적용한 4개의 inference 결과
+- 총 8개의 inference 결과
 
-codetr(swin) 실행
 ```bash
 cd launcher
 ./inference_codetr_swin.sh

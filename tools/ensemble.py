@@ -20,11 +20,7 @@ def load_txt_files_natsorted(folder_path):
     # Loop through the naturally sorted list of files
     for filename in txt_files:
         file_path = os.path.join(folder_path, filename)
-
-        # Open and read the content of the file
-        with open(file_path, "r") as file:
-            content = file.read()
-            txt_files_content.append(content)
+        txt_files_content.append(load_json(file_path))
 
     return txt_files_content
 
@@ -34,8 +30,6 @@ def denormalize_bbox(
     normalized_min_y,
     normalized_max_x,
     normalized_max_y,
-    image_width=640,
-    image_height=480,
 ):
     norm_scale = 640
     min_x = normalized_min_x * norm_scale
@@ -56,7 +50,6 @@ def converting_data(datas):
     boxes = []
     scores = []
     labels = []
-
     for data in datas:
         if int(data["image_id"].split("_")[-1]) == idx:
             boxes.append(data["bbox"])
@@ -84,7 +77,7 @@ def converting_data(datas):
 
 def main():
 
-    data_list = load_txt_files_natsorted("../submit_output")
+    data_list = load_txt_files_natsorted("../output")
     bboxes_list = []
     scores_list = []
     labels_list = []
@@ -109,8 +102,24 @@ def main():
         c_labels_list = [labels_list[i][idx] for i in range(14)]
 
         image_name = images_list[0][idx]
-        print(f"image : {image_name}")
-        weights = [1, 1, 1, 1, 1.5, 1.5, 1.5, 1.5, 2.5, 2.5, 2.5, 2.5, 2.5, 3.0]
+        weights = [
+            1,
+            1,
+            1,
+            1,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            3.0,
+            3.0,
+        ]
 
         boxes, scores, labels = weighted_boxes_fusion(
             c_boxes_list,
