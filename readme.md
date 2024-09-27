@@ -36,15 +36,15 @@ cd mmdetection && pip install -e . && cd ..
 cd mmyolo && pip install -e . && cd ..
 
 ```
-## 데이터 및 weight 다운로드
-- [Dataset](https://drive.google.com/drive/folders/17aYJv30YzAxMn_Vg1dTwOcGtpibje4t4?usp=sharing)
-- [weight](https://drive.google.com/drive/folders/14RykxBXfaIgl2JE5NN6yi9Q5JtKqkd82?usp=sharing)
-- [모델별 output](https://drive.google.com/drive/folders/1RZVeo9QMQYl5c4tasx_QM6kGzPCeDHxt?usp=sharing)
-- [최종 submit output](https://drive.google.com/drive/folders/1noWoi-QPZZpvne0DzJxEPQtXXImHM5_W?usp=sharing)
-
 ## folder-tree
-weight와 dataset을 다운받아서 아래와 같이 dataset과 weight의 폴더 위치를 구성함
+weight와 dataset, 소스코드을 다운받아서 아래와 같이 dataset과 weight의 폴더 위치를 구성함
 ![folder tree](./docs/image.png)
+
+### 다운로드 링크
+- [Datasets](https://drive.google.com/drive/folders/1vp1iHQp3Z4NPxmNMKlu0dyp4ZU6xN1ik?usp=sharing)
+- [weights](https://drive.google.com/drive/folders/1r7GNUqZE6Biy0Z84dUCKnO_6TrwV9vCj?usp=sharing)
+- [output](https://drive.google.com/drive/folders/1a0JRH5OmojIlM5VV7ljROVux-V64pTxD?usp=sharing)
+- [submit_output](https://drive.google.com/drive/folders/1w2hBoYU-hfuvDyaEIXarFy6Zg_Qb3RT1?usp=sharing)
 
 
 ## Preprocessing data
