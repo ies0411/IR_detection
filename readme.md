@@ -23,12 +23,14 @@ cd mmyolo && pip install -e . && cd ..
 
 2. Conda 환경
 ```bash
+sudo apt-get install -y libxrender-dev libxext6 libsm6 ffmpeg git ninja-build libglib2.0-0 cmake
 git clone https://github.com/ies0411/IR_detection.git
 cd IR_detection
 
 conda env create -f environment.yml
 conda activate ir_env
 pip install -r requirements.txt
+mim install --no-cache-dir "mmengine>=0.6.0" "mmcv>=2.0.0rc4,<2.1.0" "mmdet>=3.0.0,<4.0.0"
 
 cd mmdetection && pip install -e . && cd ..
 cd mmyolo && pip install -e . && cd ..
