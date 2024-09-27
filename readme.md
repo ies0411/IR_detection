@@ -158,11 +158,12 @@ cd launcher
 inference launcher를 통해 output 폴더에 다양한 모델의 multi-sie 또는 tta를 적용한 inference결과가 저장됨 -> WBF를 통해 앙상블을 진행 -> submit_output폴더에 최종 submit형식의 txt파일이 생성
 
 ```bash
-cd launcher
-./inference_codetr_swin.sh
+cd tools
+python3 ensemble.py
 ```
 
 ## Ref
+mmdetection
 ```bash
 @article{mmdetection,
   title   = {{MMDetection}: Open MMLab Detection Toolbox and Benchmark},
@@ -177,7 +178,7 @@ cd launcher
 }
 ```
 
-
+mmyolo
 ```bash
 @misc{mmyolo2022,
     title={{MMYOLO: OpenMMLab YOLO} series toolbox and benchmark},
@@ -187,6 +188,7 @@ cd launcher
 }
 ```
 
+roboflow IR data
 ```bash
 @misc{
 v7-zupa6_dataset,
@@ -203,6 +205,7 @@ note = { visited on 2024-09-27 },
 }
 ```
 
+roboflow IR data
 ```bash
 @misc{
 v7-zupa6_dataset,
@@ -217,5 +220,4 @@ year = { 2023 },
 month = { jan },
 note = { visited on 2024-09-27 },
 }
-
 ```
