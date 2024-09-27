@@ -218,5 +218,4 @@ year = { 2023 },
 month = { jan },
 note = { visited on 2024-09-27 },
 }
-
 ```
