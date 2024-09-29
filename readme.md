@@ -45,7 +45,7 @@ weight와 dataset, 소스코드을 다운받아서 아래와 같이 dataset과 w
 - [weights](https://drive.google.com/drive/folders/1r7GNUqZE6Biy0Z84dUCKnO_6TrwV9vCj?usp=sharing)
 - [output](https://drive.google.com/drive/folders/1a0JRH5OmojIlM5VV7ljROVux-V64pTxD?usp=sharing)
 - [submit_output](https://drive.google.com/drive/folders/1w2hBoYU-hfuvDyaEIXarFy6Zg_Qb3RT1?usp=sharing)
-- [모든 자료 한번에 받기](https://drive.google.com/file/d/1A8BSVQO0BqqLF2mOaoIsaUMRMZNQLi_R/view?usp=sharing)
+- [모든 파일 한번에 받기(권장)](https://drive.google.com/file/d/1A8BSVQO0BqqLF2mOaoIsaUMRMZNQLi_R/view?usp=sharing)
 
 ** 폴더 트리와 구글드라이브의 파일이름 을 참고하여, 파일의 위치와 파일,폴더,pth이름은 동일해야함 그렇지않으면 런타임에러발생**
 
