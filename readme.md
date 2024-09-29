@@ -46,7 +46,7 @@ weight와 dataset, 소스코드을 다운받아서 아래와 같이 dataset과 w
 - [output](https://drive.google.com/drive/folders/1a0JRH5OmojIlM5VV7ljROVux-V64pTxD?usp=sharing)
 - [submit_output](https://drive.google.com/drive/folders/1w2hBoYU-hfuvDyaEIXarFy6Zg_Qb3RT1?usp=sharing)
 
-** 파일, 폴더이름 및 pth 이름은 구글드라이브에 있는 파일이름과 동일해야함 **
+** 폴더 트리와 구글드라이브의 파일이름 을 참고하여, 파일의 위치와 파일,폴더,pth이름은 동일해야함 그렇지않으면 런타임에러발생**
 
 ## Preprocessing data
 tools/combine_dataset.ipynb 의 모든 셀을 순차대로 실행하여 train/val의 데이터셋을 합침
