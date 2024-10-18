@@ -1,7 +1,7 @@
 
 # IR sensor, AI 객체탐지 challenge
 IR sensor dataset을 AI 객체 탐지하는 challenge의 솔루션.
-최종 리더보드 기준 2nd
+최종 리더보드 기준 1st place 성적
 ![score](./docs/image2.png)
 
 
