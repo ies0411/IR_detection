@@ -1,9 +1,8 @@
 
 # IR sensor, AI 객체탐지 challenge
-IR sensor dataset을 AI 객체 탐지하는 challenge의 솔루션.
-최종 리더보드 기준 1st place 성적
+IR sensor dataset을 AI 객체 탐지하는 [challenge](https://www.hscaichallenge.com/)의 솔루션.
+최종 리더보드 기준 1st place score
 ![score](./docs/image2.png)
-
 
 weight와 dataset의 다운받을 수 있으며, 이를 이용하면 아래의 과정을 순서대로 진행하지 않고 각각 단계를 독립적으로 테스트해볼수 있음.
 
